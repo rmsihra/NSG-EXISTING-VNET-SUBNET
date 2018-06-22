@@ -147,10 +147,22 @@
               "value": "[parameters('virtualNetworkName')]"
             },
             "Subnet1Name": {
-              "value": "[parameters('subnetName')]"
+              "value": "[parameters('Subnet1Name')]"
             },
-            "subnetAddressPrefix": {
-              "value": "[reference(resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName')), '2018-03-01').addressPrefix]"
+            "Subnet2Name": {
+                "value": "[parameters('Subnet2Name')]"
+            },
+            "Subnet3Name": {
+                "value": "[parameters('Subnet3Name')]"
+            },
+            "Subnet1Prefix": {
+              "value": "[reference(resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Subnet1Name')), '2018-03-01').addressPrefix]"
+            },
+            "Subnet2Prefix": {
+                "value": "[reference(resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Subnet2Name')), '2018-03-01').addressPrefix]"
+            },
+            "Subnet3Prefix": {
+                "value": "[reference(resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Subnet3Name')), '2018-03-01').addressPrefix]"
             },
             "Subnet1NSGId": {
               "value": "[concat(resourceId('Microsoft.Network/networkSecurityGroups', parameters('Subnet1NSG')))]"
@@ -164,6 +176,5 @@
           }
         }
       }
-      
     ]
   }
