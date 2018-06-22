@@ -97,20 +97,20 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('Subnet1NSG')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('location')]"
       
     },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('Subnet2NSG')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('location')]"
     },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('Subnet3NSG')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('location')]"
     },
     {
       "apiVersion": "2017-08-01",
