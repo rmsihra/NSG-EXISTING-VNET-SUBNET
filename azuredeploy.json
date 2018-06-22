@@ -1,0 +1,155 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkResourceGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "The resource group where the existing VNet is located."
+        }
+    },
+    "virtualNetworkName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the existing VNet"
+        }
+    },
+    "subnetName": {
+        "type": "string",
+        "defaultValue": "default",
+        "metadata": {
+          "description": "The name of the existing subnet."
+        }
+    },
+    "addressPrefix": {
+      "type": "string",
+      "defaultValue": "10.1.0.0/16",
+      "metadata": {
+        "description": "The CIDR address space for your Virtual Network in Azure"
+      }
+    },
+    "Subnet1Prefix": {
+      "type": "string",
+      "defaultValue": "10.1.2.0/24",
+      "metadata": {
+        "description": "This is CIDR prefix for Subnet1"
+      }
+    },
+    "Subnet2Prefix": {
+      "type": "string",
+      "defaultValue": "10.1.0.0/24",
+      "metadata": {
+        "description": "This is CIDR prefix for Subnet2"
+      }
+    },
+    "Subnet3Prefix": {
+      "type": "string",
+      "defaultValue": "10.1.1.0/24",
+      "metadata": {
+        "description": "This is CIDR prefix for Subnet3"
+      }
+    },
+    "Subnet1NSG": {
+      "type": "string",
+      "defaultValue": "NSG1",
+      "metadata": {
+        "description": "This is name of the networkSecurityGroup that will be assigned to Subnet1"
+      }
+    },
+    "Subnet2NSG": {
+      "type": "string",
+      "defaultValue": "NSG2",
+      "metadata": {
+        "description": "This is name of the networkSecurityGroup that will be assigned to Subnet2"
+      }
+    },
+    "Subnet3NSG": {
+      "type": "string",
+      "defaultValue": "NSG3",
+      "metadata": {
+        "description": "This is name of the networkSecurityGroup that will be assigned to Subnet3"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    },
+    "_artifactsLocation": {
+        "type": "string",
+        "metadata": {
+          "description": "The base URI where artifacts required by this template are located."
+        },
+        "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-nsg-add-to-existing-subnet/"
+      },
+      "_artifactsLocationSasToken": {
+        "type": "securestring",
+        "metadata": {
+          "description": "The sasToken required to access _artifactsLocation."
+        },
+        "defaultValue": ""
+      }
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('Subnet1NSG')]",
+      "location": "[parameters('location')]",
+      
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('Subnet2NSG')]",
+      "location": "[parameters('location')]",
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('Subnet3NSG')]",
+      "location": "[parameters('location')]",
+    },
+    {
+      "apiVersion": "2017-08-01",
+      "name": "deploy",
+      "type": "Microsoft.Resources/deployments",
+      "resourceGroup": "[parameters('virtualNetworkResourceGroupName')]",
+      "dependsOn": [
+        "[parameters('Subnet1NSG')]",
+        "[parameters('Subnet2NSG')]",
+        "[parameters('Subnet3NSG')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), concat('nested/updateSubnet.json', parameters('_artifactsLocationSasToken')))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "subnetName": {
+            "value": "[parameters('subnetName')]"
+          },
+          "subnetAddressPrefix": {
+            "value": "[reference(resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName')), '2018-03-01').addressPrefix]"
+          },
+          "Subnet1NSGId": {
+            "value": "[concat(resourceId('Microsoft.Network/networkSecurityGroups', parameters('Subnet1NSG')))]"
+          },
+          "Subnet2NSGId": { 
+            "value": "[concat(resourceId('Microsoft.Network/networkSecurityGroups', parameters('Subnet2NSG')))]"
+          },  
+          "Subnet3NSGId": {  
+            "value": "[concat(resourceId('Microsoft.Network/networkSecurityGroups', parameters('Subnet3NSG')))]"
+          }
+        }
+      }
+    }
+    
+  ]
+}
