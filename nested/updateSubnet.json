@@ -5,11 +5,23 @@
     "virtualNetworkName": {
       "type": "string"
     },
-    "subnetName": {
+    "Subnet1Name": {
       "type": "string"
     },
-    "subnetAddressPrefix": {
+    "Subnet2Name": {
+        "type": "string"
+    },
+    "Subnet3Name": {
+        "type": "string"
+    },
+    "Subnet1Prefix": {
       "type": "string"
+    },
+    "Subnet2Prefix": {
+        "type": "string"
+    },
+    "Subnet3Prefix": {
+        "type": "string"
     },
     "Subnet1NSGId": {
       "type": "string"
@@ -26,10 +38,10 @@
     {
       "apiVersion": "2018-03-01",
       "type": "Microsoft.Network/virtualNetworks/subnets",
-      "name": "[concat(parameters('virtualNetworkName'), '/', parameters('subnetName'))]",
+      "name": "[concat(parameters('virtualNetworkName'), '/', parameters('Subnet1Name'))]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "addressPrefix": "[parameters('subnetAddressPrefix')]",
+        "addressPrefix": "[parameters('Subnet1Prefix')]",
         "networkSecurityGroup": {
           "id": "[parameters('Subnet1NSGId')]"
         }
@@ -38,10 +50,10 @@
     {
         "apiVersion": "2018-03-01",
         "type": "Microsoft.Network/virtualNetworks/subnets",
-        "name": "[concat(parameters('virtualNetworkName'), '/', parameters('subnetName'))]",
+        "name": "[concat(parameters('virtualNetworkName'), '/', parameters('Subnet2Name'))]",
         "location": "[resourceGroup().location]",
         "properties": {
-          "addressPrefix": "[parameters('subnetAddressPrefix')]",
+          "addressPrefix": "[parameters('Subnet2Prefix')]",
           "networkSecurityGroup": {
             "id": "[parameters('Subnet2NSGId')]"
           }
@@ -50,10 +62,10 @@
       {
         "apiVersion": "2018-03-01",
         "type": "Microsoft.Network/virtualNetworks/subnets",
-        "name": "[concat(parameters('virtualNetworkName'), '/', parameters('subnetName'))]",
+        "name": "[concat(parameters('virtualNetworkName'), '/', parameters('Subnet2Name'))]",
         "location": "[resourceGroup().location]",
         "properties": {
-          "addressPrefix": "[parameters('subnetAddressPrefix')]",
+          "addressPrefix": "[parameters('Subnet2Prefix')]",
           "networkSecurityGroup": {
             "id": "[parameters('Subnet3NSGId')]"
           }
