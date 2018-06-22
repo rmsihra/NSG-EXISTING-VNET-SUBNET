@@ -1,0 +1,63 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "type": "string"
+    },
+    "subnetName": {
+      "type": "string"
+    },
+    "subnetAddressPrefix": {
+      "type": "string"
+    },
+    "Subnet1NSGId": {
+      "type": "string"
+    },
+    "Subnet2NSGId": {
+        "type": "string"
+    },
+    "Subnet3NSGId": {
+        "type": "string"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "apiVersion": "2018-03-01",
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "name": "[concat(parameters('virtualNetworkName'), '/', parameters('subnetName'))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "addressPrefix": "[parameters('subnetAddressPrefix')]",
+        "networkSecurityGroup": {
+          "id": "[parameters('Subnet1NSGId')]"
+        }
+      }
+    },
+    {
+        "apiVersion": "2018-03-01",
+        "type": "Microsoft.Network/virtualNetworks/subnets",
+        "name": "[concat(parameters('virtualNetworkName'), '/', parameters('subnetName'))]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "addressPrefix": "[parameters('subnetAddressPrefix')]",
+          "networkSecurityGroup": {
+            "id": "[parameters('Subnet2NSGId')]"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-03-01",
+        "type": "Microsoft.Network/virtualNetworks/subnets",
+        "name": "[concat(parameters('virtualNetworkName'), '/', parameters('subnetName'))]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "addressPrefix": "[parameters('subnetAddressPrefix')]",
+          "networkSecurityGroup": {
+            "id": "[parameters('Subnet3NSGId')]"
+          }
+        }
+      }
+    ]
+}
